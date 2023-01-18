@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Lab_2_Flasz_Asystent_Nauczyciela</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="asystent_nauczyciela">Asystent\nNauczyciela</string>
+    <string name="przedmioty">PRZEDMIOTY</string>
+    <string name="studenci">STUDENCI</string>
+    <string name="back">WRÓĆ</string>
+    <string name="add">DODAJ</string>
+    <string name="wybierz_przedmiot">Wybierz przedmiot:</string>
+    <string name="wybierz_studenta">Wybierz studenta:</string>
+    <string name="semestr">Semestr:</string>
+    <string name="imie_nazwisko">Imię i Nazwisko:</string>
+    <string name="nazwa_przedmiotu">Nazwa przedmiotu:</string>
+    <string name="imie_nazwisko_semestr">Imię / Nazwisko / Semestr</string>
+    <string name="przedmiot_semestr">Przedmiot / Semestr</string>
+    <string name="przedmioty_studenta">Przedmioty studenta:</string>
+    <string name="zapisani_studenci">Zapisani studenci:</string>
+    <string name="addSign">+</string>
+    <string name="zdanie">Tutaj jakieś imię oraz nazwisko, wraz z semestrem studiów dla tego studenta.</string>
+    <string name="formula">Imię Nazwisko\nWiek: XX, Semestr: I - VII</string>
+</resources>

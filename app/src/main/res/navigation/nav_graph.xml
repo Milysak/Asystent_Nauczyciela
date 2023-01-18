@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainMenu">
+
+    <fragment
+        android:id="@+id/mainMenu"
+        android:name="com.example.lab_2_flasz_asystent_nauczyciela.MainMenu"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/action_mainMenu_to_studentsList"
+            app:destination="@id/studentsList"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_mainMenu_to_subjectsList"
+            app:destination="@id/subjectsList" />
+    </fragment>
+    <fragment
+        android:id="@+id/studentsList"
+        android:name="com.example.lab_2_flasz_asystent_nauczyciela.StudentsList"
+        android:label="fragment_students_list"
+        tools:layout="@layout/fragment_students_list" >
+        <action
+            android:id="@+id/action_studentsList_to_studentProfile"
+            app:destination="@id/studentProfile" />
+        <action
+            android:id="@+id/action_studentsList_to_mainMenu"
+            app:destination="@id/mainMenu"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_studentsList_to_addStudent"
+            app:destination="@id/addStudent"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/subjectsList"
+        android:name="com.example.lab_2_flasz_asystent_nauczyciela.SubjectsList"
+        android:label="fragment_subjects_list"
+        tools:layout="@layout/fragment_subjects_list" >
+        <action
+            android:id="@+id/action_subjectsList_to_subjectProfile"
+            app:destination="@id/subjectProfile" />
+        <action
+            android:id="@+id/action_subjectsList_to_mainMenu"
+            app:destination="@id/mainMenu" />
+        <action
+            android:id="@+id/action_subjectsList_to_addSubject"
+            app:destination="@id/addSubject" />
+    </fragment>
+    <fragment
+        android:id="@+id/studentProfile"
+        android:name="com.example.lab_2_flasz_asystent_nauczyciela.StudentProfile"
+        android:label="fragment_student_profile"
+        tools:layout="@layout/fragment_student_profile" >
+        <action
+            android:id="@+id/action_studentProfile_to_studentsList"
+            app:destination="@id/studentsList" />
+        <action
+            android:id="@+id/action_studentProfile_to_subjectProfile"
+            app:destination="@id/subjectProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/subjectProfile"
+        android:name="com.example.lab_2_flasz_asystent_nauczyciela.SubjectProfile"
+        android:label="fragment_subject_profile"
+        tools:layout="@layout/fragment_subject_profile" >
+        <action
+            android:id="@+id/action_subjectProfile_to_subjectsList"
+            app:destination="@id/subjectsList" />
+        <action
+            android:id="@+id/action_subjectProfile_to_studentProfile"
+            app:destination="@id/studentProfile" />
+        <action
+            android:id="@+id/action_subjectProfile_to_addStudentToSubject"
+            app:destination="@id/addStudentToSubject" />
+    </fragment>
+    <fragment
+        android:id="@+id/addStudentToSubject"
+        android:name="com.example.lab_2_flasz_asystent_nauczyciela.AddStudentToSubject"
+        android:label="fragment_add_student_to_subject"
+        tools:layout="@layout/fragment_add_student_to_subject" >
+        <action
+            android:id="@+id/action_addStudentToSubject_to_subjectProfile"
+            app:destination="@id/subjectProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/addStudent"
+        android:name="com.example.lab_2_flasz_asystent_nauczyciela.AddStudent"
+        android:label="fragment_add_student"
+        tools:layout="@layout/fragment_add_student" >
+        <action
+            android:id="@+id/action_addStudent_to_studentsList"
+            app:destination="@id/studentsList"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/addSubject"
+        android:name="com.example.lab_2_flasz_asystent_nauczyciela.AddSubject"
+        android:label="fragment_add_subject"
+        tools:layout="@layout/fragment_add_subject" >
+        <action
+            android:id="@+id/action_addSubject_to_subjectsList"
+            app:destination="@id/subjectsList" />
+    </fragment>
+</navigation>
