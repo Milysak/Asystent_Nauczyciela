@@ -13,4 +13,8 @@ data class Students(
 ) {
     @Ignore
     constructor(nameSurname: String, albumNumber: Int) : this (null, nameSurname, albumNumber)
+
+    override fun toString(): String {
+        return "$nameSurname \nnr: $albumNumber"
+    }
 }

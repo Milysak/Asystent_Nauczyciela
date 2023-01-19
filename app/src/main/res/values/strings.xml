@@ -19,4 +19,5 @@
     <string name="addSign">+</string>
     <string name="zdanie">Tutaj jakieś imię oraz nazwisko, wraz z semestrem studiów dla tego studenta.</string>
     <string name="formula">Imię Nazwisko\nWiek: XX, Semestr: I - VII</string>
+    <string name="id_number">Numer identyfikacyjny:</string>
 </resources>

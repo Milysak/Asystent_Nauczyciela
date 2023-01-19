@@ -11,7 +11,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun studentsDao() : StudentsDao
     abstract fun subjectsDao() : SubjectsDao
     abstract fun studentsSubjectsDao() : StudentsSubjectsDao
-    abstract fun sarksDao() : MarksDao
+    abstract fun marksDao() : MarksDao
 
     companion object {
 
