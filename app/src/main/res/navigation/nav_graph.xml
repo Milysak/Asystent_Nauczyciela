@@ -12,9 +12,7 @@
         tools:layout="@layout/fragment_main_menu" >
         <action
             android:id="@+id/action_mainMenu_to_studentsList"
-            app:destination="@id/studentsList"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out" />
+            app:destination="@id/studentsList" />
         <action
             android:id="@+id/action_mainMenu_to_subjectsList"
             app:destination="@id/subjectsList" />
@@ -29,14 +27,10 @@
             app:destination="@id/studentProfile" />
         <action
             android:id="@+id/action_studentsList_to_mainMenu"
-            app:destination="@id/mainMenu"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out" />
+            app:destination="@id/mainMenu" />
         <action
             android:id="@+id/action_studentsList_to_addStudent"
-            app:destination="@id/addStudent"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out" />
+            app:destination="@id/addStudent" />
     </fragment>
     <fragment
         android:id="@+id/subjectsList"
@@ -96,9 +90,7 @@
         tools:layout="@layout/fragment_add_student" >
         <action
             android:id="@+id/action_addStudent_to_studentsList"
-            app:destination="@id/studentsList"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out" />
+            app:destination="@id/studentsList" />
     </fragment>
     <fragment
         android:id="@+id/addSubject"

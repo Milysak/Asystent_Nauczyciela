@@ -9,7 +9,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.lab_2_flasz_asystent_nauczyciela.databinding.FragmentStudentsListBinding
 import com.example.lab_2_flasz_asystent_nauczyciela.databinding.FragmentSubjectsListBinding
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -29,7 +31,7 @@ class StudentsList : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private var _binding: FragmentSubjectsListBinding? = null
+    private var _binding: FragmentStudentsListBinding? = null
     private val binding get() = _binding!!
     private lateinit var appDatabase: AppDatabase
 
@@ -51,17 +53,10 @@ class StudentsList : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentSubjectsListBinding.inflate(inflater, container, false)
+        _binding = FragmentStudentsListBinding.inflate(inflater, container, false)
         appDatabase = AppDatabase.getDatabase(requireContext())
 
         dataInitialize()
-
-        recyclerView = binding.root.findViewById(R.id.scrollView1)
-
-        val adapter: StudentAdapter = StudentAdapter(studentsList)
-        recyclerView.layoutManager = LinearLayoutManager(binding.root.context)
-        recyclerView.itemAnimator = DefaultItemAnimator()
-        recyclerView.adapter = adapter
 
         val backButton = binding.buttonBack
         backButton.setOnClickListener {
@@ -76,19 +71,25 @@ class StudentsList : Fragment() {
         return binding.root
     }
 
-    fun dataInitialize() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recyclerView = view.findViewById(R.id.scrollView1)
+
+        adapter = StudentAdapter(studentsList)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.adapter = adapter
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun dataInitialize() {
         GlobalScope.launch(Dispatchers.IO) {
-            val uczniowieFromDB = appDatabase.studentsDao().getAll()
-            if (param1 == null || param2 == null) {
-                uczniowieFromDB.forEach {
-                    studentsList.add(it)
-                }
-            } else {
-                appDatabase.studentsSubjectsDao().getAll().filter{ it.subjectName == param1 }.forEachIndexed { i, value ->
-                    uczniowieFromDB.find { it.albumNumber == value.albumNumber }
-                        ?.let { studentsList.add(it) }
-                }
-            }
+            studentsList = appDatabase.studentsDao().getAll()
         }
     }
 
