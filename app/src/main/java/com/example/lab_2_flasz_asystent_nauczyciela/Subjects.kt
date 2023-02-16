@@ -14,4 +14,8 @@ data class Subjects(
 ) {
     @Ignore
     constructor(subjectName: String, day: String, hour: String) : this (null, subjectName, day, hour)
+
+    override fun toString(): String {
+        return "$subjectName \n $day $hour"
+    }
 }

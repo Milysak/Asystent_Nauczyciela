@@ -9,4 +9,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
     }
+
+    override fun onBackPressed() {
+        // Do nothing...
+    }
 }

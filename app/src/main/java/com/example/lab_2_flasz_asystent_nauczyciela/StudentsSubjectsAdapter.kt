@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class StudentAdapter(private val dataSet: MutableList<Students>) :
-    RecyclerView.Adapter<StudentAdapter.ViewHolder>() {
+class StudentsSubjectsAdapter(private val dataSet: MutableList<StudentsSubjects>) :
+    RecyclerView.Adapter<StudentsSubjectsAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using

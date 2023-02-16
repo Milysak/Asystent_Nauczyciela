@@ -6,10 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.lab_2_flasz_asystent_nauczyciela.databinding.FragmentStudentsListBinding
+import com.example.lab_2_flasz_asystent_nauczyciela.databinding.FragmentSubjectsListBinding
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +33,13 @@ class SubjectsList : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var usersList: ArrayList<User>
+    private var _binding: FragmentSubjectsListBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var appDatabase: AppDatabase
+
+    private var subjectsList : MutableList<Subjects> = mutableListOf()
+
+    private lateinit var adapter: SubjectsAdapter
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,21 +55,16 @@ class SubjectsList : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_students_list, container, false)
+        _binding = FragmentSubjectsListBinding.inflate(inflater, container, false)
+        appDatabase = AppDatabase.getDatabase(requireContext())
 
-        usersList = ArrayList<User>()
-        recyclerView = view.findViewById(R.id.scrollView1)
+        dataInitialize()
 
-        usersList.add(User("Flasz", "Miłosz", 21))
-        usersList.add(User("Krychowiak", "Grzegorz", 32))
-        usersList.add(User("Stoch", "Kamil", 35))
-        usersList.add(User("Wałęsa", "Lech", 79))
-        usersList.add(User("Zieliński", "Piotr", 35))
+        return binding.root
+    }
 
-        //val adapter: StudentAdapter = StudentAdapter(usersList)
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerView.itemAnimator = DefaultItemAnimator()
-        //recyclerView.adapter = adapter
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val backButton = view.findViewById<Button>(R.id.buttonBack)
         backButton.setOnClickListener {
@@ -68,7 +76,41 @@ class SubjectsList : Fragment() {
             Navigation.findNavController(view).navigate(R.id.action_subjectsList_to_addSubject)
         }
 
-        return view
+        recyclerView = view.findViewById(R.id.scrollView1)
+
+        adapter = SubjectsAdapter(subjectsList)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.adapter = adapter
+
+        adapter.setOnItemClickListener(object : SubjectsAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                val bundle = Bundle()
+                bundle.putString("string", subjectsList[position].subjectName)
+                bundle.putString("string1", "${subjectsList[position].day} - ${subjectsList[position].hour}")
+
+                val fragment = StudentProfile()
+                fragment.arguments = bundle
+
+                Navigation.findNavController(view).navigate(R.id.action_subjectsList_to_subjectProfile, bundle)
+            }
+        })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun dataInitialize() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val list = appDatabase.subjectsDao().getAll()
+
+            list.forEach {
+                subjectsList.add(it)
+            }
+        }
     }
 
     companion object {

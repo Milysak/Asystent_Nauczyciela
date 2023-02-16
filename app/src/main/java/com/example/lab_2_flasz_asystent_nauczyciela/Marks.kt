@@ -16,4 +16,8 @@ data class Marks(
     @Ignore
     constructor(subjectName: String, albumNumber: Int, markName: String, markValue: String) :
             this (null, subjectName, albumNumber, markName, markValue)
+
+    override fun toString(): String {
+        return " $subjectName \n$markValue"
+    }
 }

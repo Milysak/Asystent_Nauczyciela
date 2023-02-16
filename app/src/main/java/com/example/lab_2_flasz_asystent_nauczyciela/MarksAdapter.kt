@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class StudentAdapter(private val dataSet: MutableList<Students>) :
-    RecyclerView.Adapter<StudentAdapter.ViewHolder>() {
+class MarksAdapter(private val dataSet: MutableList<Marks>) :
+    RecyclerView.Adapter<MarksAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
@@ -47,10 +47,6 @@ class StudentAdapter(private val dataSet: MutableList<Students>) :
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         viewHolder.textView.text = dataSet[position].toString()
-
-        viewHolder.itemView.setOnClickListener {
-            mListener.onItemClick(position)
-        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

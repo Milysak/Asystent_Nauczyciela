@@ -23,4 +23,11 @@
     <string name="tip_id">987544 - 6 cyfr</string>
     <string name="tip_surname">Kowalski</string>
     <string name="tip_name">Jan</string>
+    <string name="dzie_tygodnia">Dzień Tygodnia:</string>
+    <string name="godzina">Godzina:</string>
+    <string name="albumNumber">890345</string>
+    <string name="data_godzina">Poniedziałek - 10:15</string>
+    <string name="type_of_mark">Typ oceny:</string>
+    <string name="value_of_mark">Wartość:</string>
+    <string name="reset">reset</string>
 </resources>

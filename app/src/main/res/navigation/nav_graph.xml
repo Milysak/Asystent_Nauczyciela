@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_studentProfile_to_subjectProfile"
             app:destination="@id/subjectProfile" />
+        <action
+            android:id="@+id/action_studentProfile_to_addMarkToStudent"
+            app:destination="@id/addMarkToStudent" />
     </fragment>
     <fragment
         android:id="@+id/subjectProfile"
@@ -100,5 +103,14 @@
         <action
             android:id="@+id/action_addSubject_to_subjectsList"
             app:destination="@id/subjectsList" />
+    </fragment>
+    <fragment
+        android:id="@+id/addMarkToStudent"
+        android:name="com.example.lab_2_flasz_asystent_nauczyciela.AddMarkToStudent"
+        android:label="fragment_add_mark_to_student"
+        tools:layout="@layout/fragment_add_mark_to_student" >
+        <action
+            android:id="@+id/action_addMarkToStudent_to_studentProfile"
+            app:destination="@id/studentProfile" />
     </fragment>
 </navigation>

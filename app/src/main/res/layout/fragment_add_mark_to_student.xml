@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddSubject"
+    tools:context=".AddMarkToStudent"
     android:background="@drawable/gradient_background_main">
 
     <Button
         android:id="@+id/buttonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add"
         android:backgroundTint="#0EAE57"
+        android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
@@ -34,7 +34,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="@dimen/_275sdp"
-        android:layout_height="@dimen/_165sdp"
+        android:layout_height="@dimen/_210sdp"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="@dimen/_245sdp"
-        android:layout_height="@dimen/_135sdp"
+        android:layout_height="@dimen/_180sdp"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,8 +70,8 @@
             android:textSize="15sp"
             android:textStyle="bold"/>
 
-        <EditText
-            android:id="@+id/name"
+        <Spinner
+            android:id="@+id/spinnerNameOfSubject"
             android:layout_width="270dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
@@ -89,7 +89,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dzie_tygodnia"
+            android:text="@string/type_of_mark"
             android:textSize="15sp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="80dp"
@@ -100,7 +100,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Spinner
-            android:id="@+id/spinnerDay"
+            android:id="@+id/spinnerTypeOfMark"
             android:layout_width="170dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
@@ -116,7 +116,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/godzina"
+            android:text="@string/value_of_mark"
             android:textSize="15sp"
             android:layout_marginStart="200dp"
             android:layout_marginTop="80dp"
@@ -127,7 +127,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Spinner
-            android:id="@+id/spinnerHour"
+            android:id="@+id/spinnerValueOfMark"
             android:layout_width="90dp"
             android:layout_height="40dp"
             android:layout_marginStart="200dp"
@@ -139,6 +139,32 @@
             app:layout_constraintStart_toStartOf="@+id/spinnerDay"
             app:layout_constraintTop_toBottomOf="@+id/text1"
             app:layout_constraintVertical_bias="0"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="150dp"
+            android:text="@string/imie_nazwisko"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/spinnerNameOfStudent"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="170dp"
+            android:paddingStart="10dp"
+            android:textStyle="bold"
+            android:background="@drawable/gradient_1"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4"
+            tools:ignore="RtlSymmetry" />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

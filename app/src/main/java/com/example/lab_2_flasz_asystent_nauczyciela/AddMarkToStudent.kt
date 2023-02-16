@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.navigation.Navigation
+import com.example.lab_2_flasz_asystent_nauczyciela.databinding.FragmentAddMarkToStudentBinding
 import com.example.lab_2_flasz_asystent_nauczyciela.databinding.FragmentAddStudentToSubjectBinding
-import com.example.lab_2_flasz_asystent_nauczyciela.databinding.FragmentStudentProfileBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,15 +22,15 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [AddStudentToSubject.newInstance] factory method to
+ * Use the [AddMarkToStudent.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AddStudentToSubject : Fragment() {
+class AddMarkToStudent : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private var _binding: FragmentAddStudentToSubjectBinding? = null
+    private var _binding: FragmentAddMarkToStudentBinding? = null
     private val binding get() = _binding!!
     private lateinit var appDatabase: AppDatabase
 
@@ -39,13 +39,18 @@ class AddStudentToSubject : Fragment() {
 
     private lateinit var subjectsArrayAdapter: ArrayAdapter<String>
     private lateinit var studentsArrayAdapter: ArrayAdapter<String>
+    private lateinit var typeOfMarkArrayAdapter: ArrayAdapter<String>
+    private lateinit var valueOfMarkArrayAdapter: ArrayAdapter<String>
 
     val subjects: MutableList<String> = arrayListOf()
     val students: MutableList<String> = arrayListOf()
 
+    private val typeOfMark = arrayOf("kolokwium", "egzamin", "projekt")
+    private val valueOfMark = arrayOf("2","3","3.5","4","4.5","5")
+
     private lateinit var subjectsList: MutableList<Subjects>
     private lateinit var studentsList: MutableList<Students>
-    private lateinit var studentsSubjectsList: MutableList<StudentsSubjects>
+    private lateinit var marksList: MutableList<Marks>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +65,7 @@ class AddStudentToSubject : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentAddStudentToSubjectBinding.inflate(inflater, container, false)
+        _binding = FragmentAddMarkToStudentBinding.inflate(inflater, container, false)
         appDatabase = AppDatabase.getDatabase(requireContext())
 
         val bundle: Bundle? = arguments
@@ -71,47 +76,44 @@ class AddStudentToSubject : Fragment() {
         bundle?.putString("string", name)
         bundle?.putString("string1", date)
 
-        val fragment = SubjectProfile()
+        val fragment = StudentProfile()
         fragment.arguments = bundle
 
         dataInitialize()
 
         binding.buttonAdd.setOnClickListener {
-            if(addStudentToSubject()) {
-                Navigation.findNavController(binding.root).navigate(R.id.action_addStudentToSubject_to_subjectProfile, bundle)
+            if(addMarkToStudent()) {
+                Navigation.findNavController(binding.root).navigate(R.id.action_addMarkToStudent_to_studentProfile, bundle)
             }
         }
 
         binding.buttonBack.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_addStudentToSubject_to_subjectProfile, bundle)
+            Navigation.findNavController(binding.root).navigate(R.id.action_addMarkToStudent_to_studentProfile, bundle)
         }
 
         return binding.root
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    private fun addStudentToSubject(): Boolean {
-        if(students.isNotEmpty() && subjects.isNotEmpty()) {
-            val selectedStudentPosition: Int = binding.spinnerStudent.selectedItemPosition
-            val selectedSubjectPosition: Int = binding.spinnerPrzedmiot.selectedItemPosition
+    private fun addMarkToStudent(): Boolean {
+        if(subjects.isNotEmpty() && students.isNotEmpty()) {
+            val selectedStudentPosition: Int = binding.spinnerNameOfStudent.selectedItemPosition
+            val selectedSubjectPosition: Int = binding.spinnerNameOfSubject.selectedItemPosition
 
-            val newStudentToSubject = StudentsSubjects(subjectsList[selectedSubjectPosition].subjectName, studentsList[selectedStudentPosition].albumNumber)
+            val selectedTypeOfMark: String = binding.spinnerTypeOfMark.selectedItem.toString()
+            val selectedValueOfMark: String = binding.spinnerValueOfMark.selectedItem.toString()
 
-            val text = studentsList[selectedStudentPosition].albumNumber.toString() + "\n" + subjectsList[selectedSubjectPosition].subjectName
-            //Toast.makeText(binding.root.context, text,Toast.LENGTH_SHORT).show()
+            val newMarkToStudent = Marks(subjectsList[selectedSubjectPosition].subjectName, studentsList[selectedStudentPosition].albumNumber, selectedTypeOfMark, selectedValueOfMark)
 
-            if(studentsSubjectsList.find { it.subjectName + it.albumNumber == newStudentToSubject.subjectName + newStudentToSubject.albumNumber } != null) {
-                Toast.makeText(binding.root.context, "To przypisanie już istnieje!", Toast.LENGTH_SHORT).show()
-            } else {
-                GlobalScope.launch(Dispatchers.IO) {
-                    appDatabase.studentsSubjectsDao().insert(newStudentToSubject)
-                    studentsSubjectsList.add(newStudentToSubject)
-                }
-                return true
+            GlobalScope.launch(Dispatchers.IO) {
+                appDatabase.marksDao().insert(newMarkToStudent)
+                marksList.add(newMarkToStudent)
             }
-            return false
+
+            return true
         }
 
+        Toast.makeText(binding.root.context, "Brak wszystkich danych!", Toast.LENGTH_SHORT).show()
         return false
     }
 
@@ -122,7 +124,7 @@ class AddStudentToSubject : Fragment() {
 
             studentsList = appDatabase.studentsDao().getAll()
 
-            studentsSubjectsList = appDatabase.studentsSubjectsDao().getAll()
+            marksList = appDatabase.marksDao().getAll()
 
             subjectsList.forEach {
                 subjects.add(it.subjectName + " " + it.day + " - " + it.hour)
@@ -134,10 +136,13 @@ class AddStudentToSubject : Fragment() {
 
             subjectsArrayAdapter = ArrayAdapter<String>(binding.root.context, android.R.layout.simple_spinner_dropdown_item, subjects)
             studentsArrayAdapter = ArrayAdapter<String>(binding.root.context, android.R.layout.simple_spinner_dropdown_item, students)
+            typeOfMarkArrayAdapter = ArrayAdapter<String>(binding.root.context, android.R.layout.simple_spinner_dropdown_item, typeOfMark)
+            valueOfMarkArrayAdapter = ArrayAdapter<String>(binding.root.context, android.R.layout.simple_spinner_dropdown_item, valueOfMark)
 
-            binding.spinnerPrzedmiot.adapter = subjectsArrayAdapter
-
-            binding.spinnerStudent.adapter = studentsArrayAdapter
+            binding.spinnerNameOfStudent.adapter = studentsArrayAdapter
+            binding.spinnerNameOfSubject.adapter = subjectsArrayAdapter
+            binding.spinnerTypeOfMark.adapter = typeOfMarkArrayAdapter
+            binding.spinnerValueOfMark.adapter = valueOfMarkArrayAdapter
         }
     }
 
@@ -148,12 +153,12 @@ class AddStudentToSubject : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment AddStudentToSubject.
+         * @return A new instance of fragment AddMarkToStudent.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            AddStudentToSubject().apply {
+            AddMarkToStudent().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

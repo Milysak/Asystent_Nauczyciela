@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,27 +60,41 @@ class StudentsList : Fragment() {
 
         dataInitialize()
 
-        val backButton = binding.buttonBack
-        backButton.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_studentsList_to_mainMenu)
-        }
-
-        val addButton = binding.buttonAdd
-        addButton.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_studentsList_to_addStudent)
-        }
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val backButton = view.findViewById<Button>(R.id.buttonBack)
+        backButton.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_studentsList_to_mainMenu)
+        }
+
+        val addButton = view.findViewById<Button>(R.id.buttonAdd)
+        addButton.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_studentsList_to_addStudent)
+        }
+
         recyclerView = view.findViewById(R.id.scrollView1)
 
         adapter = StudentAdapter(studentsList)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
+
+        adapter.setOnItemClickListener(object : StudentAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                val bundle = Bundle()
+                bundle.putString("string", studentsList[position].nameSurname)
+                bundle.putInt("int", studentsList[position].albumNumber)
+
+                val fragment = StudentProfile()
+                fragment.arguments = bundle
+
+                Navigation.findNavController(view).navigate(R.id.action_studentsList_to_studentProfile, bundle)
+            }
+        })
     }
 
     override fun onDestroy() {
@@ -89,7 +105,11 @@ class StudentsList : Fragment() {
     @OptIn(DelicateCoroutinesApi::class)
     private fun dataInitialize() {
         GlobalScope.launch(Dispatchers.IO) {
-            studentsList = appDatabase.studentsDao().getAll()
+            val list = appDatabase.studentsDao().getAll()
+
+            list.forEach {
+                studentsList.add(it)
+            }
         }
     }
 
